@@ -1,0 +1,18 @@
+{   
+   "router-name": {       
+      "type": "string",
+      "description": "name of the router where the show command was ran"
+   }
+   "router-ip": {       
+      "type": "string",
+      "description": "ip address the router where the show command was ran"
+   }
+   "input-file-name": {       
+      "type": "string",
+      "description": "input file containing the output of 'show route vrf all' "
+   }
+   "output-file-name": {       
+      "type": "string",
+      "description": "output file containing the json objects after the script processing "
+   }
+}

@@ -1,0 +1,125 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "IOS_XR_VRF_RoutingTable",
+  "type": "object",
+  "required": [
+    "collection_timestamp",
+    "vrf_name",
+    "address_family",
+    "routes"
+  ],
+  "properties": {
+    "collection_timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 formatted timestamp of when the command output was captured."
+    },
+    "vrf_name": {
+      "type": "string",
+      "description": "Virtual Routing and Forwarding table name (e.g., BM1, default)."
+    },
+    "address_family": {
+      "type": "string",
+      "enum": ["ipv4", "ipv6"],
+      "description": "The IP address family of this routing table representation."
+    },
+    "gateway_of_last_resort": {
+      "type": "object",
+      "required": ["ip", "network"],
+      "properties": {
+        "ip": {
+          "type": ["string", "null"],
+          "description": "Gateway IP address. Can be null if no default gateway is configured."
+        },
+        "network": {
+          "type": "string",
+          "description": "Target destination network (typically 0.0.0.0 or ::)."
+        }
+      }
+    },
+    "routes": {
+      "type": "array",
+      "description": "List of routes parsed from the VRF routing table.",
+      "items": {
+        "type": "object",
+        "required": [
+          "prefix",
+          "prefix_len",
+          "protocol_name",
+          "is_candidate_default",
+          "paths"
+        ],
+        "properties": {
+          "prefix": {
+            "type": "string",
+            "description": "The destination IP prefix address without the CIDR mask."
+          },
+          "prefix_len": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 128,
+            "description": "The CIDR prefix length (subnet mask)."
+          },
+          "protocol_name": {
+            "type": "string",
+            "enum": [
+              "BGP", 
+              "Static", 
+              "Connected", 
+              "Local", 
+              "OSPF", 
+              "IS-IS", 
+              "EIGRP", 
+              "RIP", 
+              "RPL", 
+              "LISP", 
+              "Application"
+            ],
+            "description": "The human-readable name of the routing protocol."
+          },
+          "is_candidate_default": {
+            "type": "boolean",
+            "description": "Indicates if this route is marked as a candidate default (*)."
+          },
+          "paths": {
+            "type": "array",
+            "minItems": 1,
+            "description": "Routing paths supporting ECMP multipathing.",
+            "items": {
+              "type": "object",
+              "required": [
+                "next_hop_vrf"
+              ],
+              "properties": {
+                "next_hop_ip": {
+                  "type": ["string", "null"],
+                  "description": "The next-hop gateway IP. Null for directly connected networks."
+                },
+                "egress_interface": {
+                  "type": ["string", "null"],
+                  "description": "The outgoing interface name (e.g., GigabitEthernet0/0/0/0, Null0)."
+                },
+                "next_hop_vrf": {
+                  "type": "string",
+                  "description": "The VRF context of the next hop (e.g., 'default' for leaked routes)."
+                },
+                "administrative_distance": {
+                  "type": ["integer", "null"],
+                  "minimum": 0,
+                  "maximum": 255,
+                  "description": "Route administrative distance. Null for connected/local routes."
+                },
+                "metric": {
+                  "type": ["integer", "null"],
+                  "minimum": 0,
+                  "description": "Route cost/metric. Null for certain static or direct routes."
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
