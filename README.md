@@ -35,5 +35,5 @@ called with:
    
    - visualized_vrf_route_policy_bu.py
      python script to visualize the route policy complexity using a tiered bar graph that stack the various metric of a policy-map
-   - run visualized_vrf_route_policy_bu
+   - run_visualized_vrf_route_policy_bu
      small bash script to invoke visualized_vrf_route_policy_bu
