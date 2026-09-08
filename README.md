@@ -4,7 +4,7 @@ Scripts used to visualize routing data for Bell Tor-PE
 1. Create vrf route object
 
    - parse_vrf_routes.py :
-     Converts the "show vrf route all" output from IOS-XR router that is stored in a text file into a list of json objects in the format of vrf-route-schema.json.   The 
+     python scripts that converts the "show vrf route all" output from IOS-XR router that is stored in a text file into a list of json objects in the format of vrf-route-schema.json.   The 
 called with:
      python3 ./parse_vrf_routes.py -c input-file.json -s vrf-route-schema.json
   The input parameters are:
@@ -14,7 +14,7 @@ called with:
 2. Visualization of route distribution among VRF and BUs.
 
    - visualize_vrf_routes_with_bu.py
-     Visualize the distribution of number of routes in each VRF and in the different BUs
+     python script to visualize the distribution of number of routes in each VRF and in the different BUs
 
    - run_visualize_vrf_route_with_bu
      small bash script to invoke visualize_vrf_routes_with_bu.py with the correct streamlit parameters
@@ -22,6 +22,18 @@ called with:
 3. Visualize shared (duplicate) route between different routes as a heatmap
 
    - visualize_route_heatmap.py
-     This visualize how many routes are shared between 2 routes.  The heatmap shows how many routes are shared between 2 routes
+     python script that visualizes how many routes are shared between 2 routes.  The heatmap shows how many routes are shared between 2 routes
    - run_visualize_route_heatmap
-     small bash script to invoke visualize_route_heatmap     
+     small bash script to invoke visualize_route_heatmap
+
+4. Create route policy object
+  
+   - route-policy-extractor.py
+     Python script that extracts the route-policy complexity metric for each policy attached to a vrf (v4 & v6, import & export) and put the data into a json object list
+
+5.  Visualize the route policy complexity
+   
+   - visualized_vrf_route_policy_bu.py
+     python script to visualize the route policy complexity using a tiered bar graph that stack the various metric of a policy-map
+   - run visualized_vrf_route_policy_bu
+     small bash script to invoke visualized_vrf_route_policy_bu
